@@ -145,6 +145,13 @@ class GraphQL
             new StartExecution
         );
 
+        # Then, extend it with Federation
+        $federation = new Federation();
+        $this->executableSchema = $federation->extendSchema($this->executableSchema);
+
+        # And extend it with Federation resolvers
+        $rootValue = $federation->addResolversToRootValue($rootValue);
+
         $result = GraphQLBase::executeQuery(
             $this->executableSchema,
             $query,
